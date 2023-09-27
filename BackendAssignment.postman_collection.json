@@ -1,0 +1,320 @@
+{
+	"info": {
+		"_postman_id": "abc5a3be-c839-49cd-99db-8c2bd8977a01",
+		"name": "BackendAssignment",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "10753305"
+	},
+	"item": [
+		{
+			"name": "login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;\r",
+							"\r",
+							"var contentTypeHeaderExists = responseHeaders.hasOwnProperty(\"Content-Type\");\r",
+							"\r",
+							"tests[\"Has Content-Type\"] = contentTypeHeaderExists;\r",
+							"\r",
+							"if (contentTypeHeaderExists) {\r",
+							"     tests[\"Content-Type is application/json\"] =\r",
+							"          responseHeaders[\"Content-Type\"].has(\"application/json\");\r",
+							"}\r",
+							"\r",
+							"var jsonData = JSON.parse(responseBody);\r",
+							"pm.environment.set(\"access\",jsonData.access);\r",
+							"pm.environment.set(\"refresh\",jsonData.refresh);\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\r\n    \"username\":\"dipen1991\",\r\n    \"password\":\"dipen@2110\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL}}login/",
+					"host": [
+						"{{URL}}login"
+					],
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "logout",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;\r",
+							"\r",
+							"var contentTypeHeaderExists = responseHeaders.hasOwnProperty(\"Content-Type\");\r",
+							"\r",
+							"tests[\"Has Content-Type\"] = contentTypeHeaderExists;\r",
+							"\r",
+							"if (contentTypeHeaderExists) {\r",
+							"     tests[\"Content-Type is application/json\"] =\r",
+							"          responseHeaders[\"Content-Type\"].has(\"application/json\");\r",
+							"}\r",
+							"\r",
+							"pm.environment.unset(\"access\");\r",
+							"pm.environment.unset(\"refresh\");\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjk1ODMyNTQxLCJqdGkiOiJlZGZhMjA4NjM0NDE0ZmJlYTVhNTMzODQ5MDJmZmNjZiIsInVzZXJfaWQiOjEsInVzZXJuYW1lIjoiZGlwZW4xMTExIiwiZW1haWwiOiJkaXBlbjExQGN1YmVzY2xvdWQuY29tIn0.IySu9QYNy7zTTAS-8ZcIgCBxtTCVztV5iZGhfcjUlzU",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{access}}",
+						"type": "text"
+					},
+					{
+						"key": "refresh_token",
+						"value": "Bearer {{refresh}}",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "refresh_token",
+							"value": "{{refresh}}",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{URL}}users/logout/",
+					"host": [
+						"{{URL}}users"
+					],
+					"path": [
+						"logout",
+						""
+					],
+					"query": [
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "user profile",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjk1ODMyNTQxLCJqdGkiOiJlZGZhMjA4NjM0NDE0ZmJlYTVhNTMzODQ5MDJmZmNjZiIsInVzZXJfaWQiOjEsInVzZXJuYW1lIjoiZGlwZW4xMTExIiwiZW1haWwiOiJkaXBlbjExQGN1YmVzY2xvdWQuY29tIn0.IySu9QYNy7zTTAS-8ZcIgCBxtTCVztV5iZGhfcjUlzU",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer{{access}}",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "Authorization",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "{{URL}}profile/",
+					"host": [
+						"{{URL}}profile"
+					],
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "registration ",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \r\n    \"email\":\"dipen11@cubescloud.com\",\r\n    \"username\":\"dipen1111\",\r\n    \"password\":\"dipen@2110\",\r\n    \"password2\":\"dipen@2110\",\r\n    \"bio\":\"asdasdsadsad\",\r\n    \"cover_photo\":null\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL}}register/",
+					"host": [
+						"{{URL}}register"
+					],
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "registration  Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjk1ODI3MDY4LCJqdGkiOiJlZjg3Mjk1NTg3MWY0NWFmYjE2YzE1ZWVhN2YwOTFhYSIsInVzZXJfaWQiOjIsInVzZXJuYW1lIjoiZGlwZW4xMTExIiwiZW1haWwiOiJkaXBlbjExQGN1YmVzY2xvdWQuY29tIn0.AV1bzkWoU1vxrWpwTXMBstGUN-BLey-ix1-HZSj-tdg",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"followers\":3\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL}}follow/1/",
+					"host": [
+						"{{URL}}follow"
+					],
+					"path": [
+						"1",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "registration  Copy 2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjk1ODI3MDY4LCJqdGkiOiJlZjg3Mjk1NTg3MWY0NWFmYjE2YzE1ZWVhN2YwOTFhYSIsInVzZXJfaWQiOjIsInVzZXJuYW1lIjoiZGlwZW4xMTExIiwiZW1haWwiOiJkaXBlbjExQGN1YmVzY2xvdWQuY29tIn0.AV1bzkWoU1vxrWpwTXMBstGUN-BLey-ix1-HZSj-tdg",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"followers\":3\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL}}unfollow/1/",
+					"host": [
+						"{{URL}}unfollow"
+					],
+					"path": [
+						"1",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
